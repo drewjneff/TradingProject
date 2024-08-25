@@ -3,7 +3,9 @@ from flask_cors import CORS
 import sqlite3
 
 app = Flask(__name__)
-CORS(app)
+
+# Explicitly allow requests from http://localhost:3000
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:8080"}})
 
 def get_dummy_text():
     conn = sqlite3.connect('data.db')
