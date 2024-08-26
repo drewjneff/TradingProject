@@ -1,0 +1,31 @@
+@import "../../styles/variables.less";
+
+.combobox-dropdown {
+    background-color: @bg3;
+    max-height: 150px;
+    overflow-y: auto;
+    border:none;
+}
+
+.combobox-option {
+    color: white;
+    font-size: 18px;    
+    &:hover {
+        background-color: @bg4;
+    }
+}
+
+.input-base {
+    background-color: @bg3;
+    border: none;
+    font-size: 20px;
+    caret-color: @bg6;
+    color: white;
+    max-width: 175px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    &:focus {
+        color: black .8;
+    }
+}
