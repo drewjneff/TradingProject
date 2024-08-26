@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from database_utils import get_dummy_text, query
+from database_utils import get_dummy_text, query, chart_6mo
 import sqlite3
 
 api = Flask(__name__)
@@ -22,6 +22,19 @@ def get_query():
     try:
         content = query(query_str)
         return jsonify({'result': content})
+    except sqlite3.Error as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+@api.route('/api/chart', methods=['GET'])
+def get_chart_6mo():
+    symbol = request.args.get('symbol')  # Get symbol from request parameters
+    if not symbol:
+        return jsonify({'error': 'No symbol provided'}), 400
+    try:
+        content = chart_6mo(symbol)
+        content_dict = content.to_dict(orient='records')
+        return jsonify({'result': content_dict})
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
 

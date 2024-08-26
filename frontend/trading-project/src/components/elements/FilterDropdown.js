@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Combobox, InputBase, useCombobox } from '@mantine/core';
 import './FilterDropdown.less';
 
-function FilterDropdown({ optionsArr, setSelectedSymbol}) {
+function FilterDropdown({ optionsArr, setSelectedSymbol }) {
     const combobox = useCombobox({
         onDropdownClose: () => combobox.resetSelectedOption(),
     });
@@ -20,14 +20,11 @@ function FilterDropdown({ optionsArr, setSelectedSymbol}) {
 
     useEffect(() => {
         setSelectedSymbol(value);
-    },[value])
+    }, [value, setSelectedSymbol]);
 
-    const exactOptionMatch = data.some((item) => item === search);
-    const filteredOptions = exactOptionMatch
-        ? data
-        : data.filter((item) =>
-            item.toLowerCase().includes(search.toLowerCase().trim())
-        );
+    const filteredOptions = data.filter((item) =>
+        item.toLowerCase().includes(search.toLowerCase().trim())
+    );
 
     const options = filteredOptions.map((item) => (
         <Combobox.Option value={item} key={item} className="combobox-option">
@@ -51,12 +48,12 @@ function FilterDropdown({ optionsArr, setSelectedSymbol}) {
                 combobox.closeDropdown();
             }}
             classNames={{
-                dropdown: 'combobox-dropdown'
+                dropdown: 'combobox-dropdown',
             }}
         >
             <Combobox.Target>
                 <InputBase
-                    ref = {inputRef}
+                    ref={inputRef}
                     value={search}
                     onChange={(event) => {
                         combobox.openDropdown();
@@ -72,7 +69,7 @@ function FilterDropdown({ optionsArr, setSelectedSymbol}) {
                     placeholder="Select Symbol.."
                     rightSectionPointerEvents="none"
                     classNames={{
-                        input: "input-base"
+                        input: 'input-base',
                     }}
                 />
             </Combobox.Target>
@@ -80,7 +77,7 @@ function FilterDropdown({ optionsArr, setSelectedSymbol}) {
             <Combobox.Dropdown>
                 <Combobox.Options>
                     {options}
-                    {!exactOptionMatch && search.trim().length > 0 && (
+                    {search.trim().length > 0 && !filteredOptions.includes(search.toUpperCase()) && (
                         <Combobox.Option value="$create" className="combobox-option">
                             + Search for {search.toUpperCase()}
                         </Combobox.Option>
