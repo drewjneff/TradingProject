@@ -32,21 +32,22 @@ function FilterDropdown({ optionsArr, setSelectedSymbol }) {
         </Combobox.Option>
     ));
 
+    const handleSelectValue = (val) => {
+        if (val === '$create') {
+            setData((current) => [...current, search]);
+            setValue(search);
+        } else {
+            setValue(val);
+            setSearch(val);
+        }
+        combobox.closeDropdown();
+    }
+
     return (
         <Combobox
             store={combobox}
             withinPortal={false}
-            onOptionSubmit={(val) => {
-                if (val === '$create') {
-                    setData((current) => [...current, search]);
-                    setValue(search);
-                } else {
-                    setValue(val);
-                    setSearch(val);
-                }
-
-                combobox.closeDropdown();
-            }}
+            onOptionSubmit={handleSelectValue}
             classNames={{
                 dropdown: 'combobox-dropdown',
             }}
@@ -60,11 +61,19 @@ function FilterDropdown({ optionsArr, setSelectedSymbol }) {
                         combobox.updateSelectedOptionIndex();
                         setSearch(event.currentTarget.value.toUpperCase());
                     }}
-                    onClick={() => combobox.openDropdown()}
+                    onClick={() => {combobox.openDropdown(); setSearch(''); setValue('');}}
                     onFocus={() => combobox.openDropdown()}
                     onBlur={() => {
                         combobox.closeDropdown();
                         setSearch(value || '');
+                    }}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            handleSelectValue(search);
+                            setTimeout(() => {
+                                inputRef.current.blur();
+                            }, 0);
+                        }
                     }}
                     placeholder="Select Symbol.."
                     rightSectionPointerEvents="none"
@@ -79,7 +88,7 @@ function FilterDropdown({ optionsArr, setSelectedSymbol }) {
                     {options}
                     {search.trim().length > 0 && !filteredOptions.includes(search.toUpperCase()) && (
                         <Combobox.Option value="$create" className="combobox-option">
-                            + Search for {search.toUpperCase()}
+                            Search for {search.toUpperCase()}
                         </Combobox.Option>
                     )}
                 </Combobox.Options>

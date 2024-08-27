@@ -19,13 +19,16 @@
     background-color: @bg3;
     border: none;
     font-size: 20px;
-    caret-color: @bg6;
     color: white;
     max-width: 175px;
-    padding-top: 20px;
+    padding-top: 21px;
     padding-bottom: 20px;
 
     &:focus {
         color: black .8;
+    }
+
+    &::placeholder {
+        color: white;
     }
 }
