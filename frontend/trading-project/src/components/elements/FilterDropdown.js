@@ -41,6 +41,9 @@ function FilterDropdown({ optionsArr, setSelectedSymbol }) {
             setSearch(val);
         }
         combobox.closeDropdown();
+        setTimeout(() => {
+            inputRef.current.blur();
+        }, 0);
     }
 
     return (
