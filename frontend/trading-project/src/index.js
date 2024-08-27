@@ -5,6 +5,7 @@ import { MantineProvider } from "@mantine/core";
 import '@mantine/core/styles.css';
 import Main from "./Main";
 import "semantic-ui-css/semantic.min.css";
+import "./assets/fonts/fonts.css";
 import "./index.less";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
