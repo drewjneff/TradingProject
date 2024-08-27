@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Gallery.less';
 import FilterDropdown from '../elements/FilterDropdown';
 import CandlestickChart from "../elements/CandlestickChart";
+import CandlestickSkeleton from "../elements/CandlestickSkeleton";
 import { Button } from '@mantine/core';
 
 
@@ -68,10 +69,13 @@ function Gallery() {
             </div>
             <div className='chart-container'>
                 {chartData != null ?
+                <>
                     <CandlestickChart
                         chartData = {chartData}
                     />
-                    : null}
+                   
+                </>
+                    :  <CandlestickSkeleton/>}
             </div>
         </>
 
