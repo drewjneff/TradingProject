@@ -15,7 +15,7 @@ function Main() {
                 setServerStatus(status);
             });
         };
-        const intervalId = setInterval(updateServerStatus, 20000);
+        const intervalId = setInterval(updateServerStatus, 60000);
         updateServerStatus();
         return () => { clearInterval(intervalId)};
     }, []);
