@@ -7,13 +7,14 @@ export const AppProvider = ({ children }) => {
     const params = Object.fromEntries(searchParams.entries());
 
     //States to be held within the context
-    const [sidebarTab, setSidebarTab] = useState(
-        params.tab ? params.tab : "Dashboard"
-    );
+    const [sidebarTab, setSidebarTab] = useState(params.tab ? params.tab : "Dashboard");
+    const [serverStatus, setServerStatus] = useState(false);
 
     const contextValues = {
         sidebarTab,
         setSidebarTab,
+        serverStatus,
+        setServerStatus
     };
 
     return (

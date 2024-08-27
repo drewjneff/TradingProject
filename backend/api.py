@@ -8,6 +8,9 @@ api = Flask(__name__)
 
 CORS(api, resources={r"/api/*": {"origins": "http://localhost:8080"}})
 
+@api.route('/api/health', methods=['GET'])
+def health_check():
+    return {'status':'running'}, 200
 
 @api.route('/api/text', methods=['GET'])
 def get_text():
@@ -45,4 +48,4 @@ def fetch_daily_chart_api():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    api.run(debug=True)
+    api.run(debug=True,port=5001)
