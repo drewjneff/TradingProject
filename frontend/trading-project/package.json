@@ -26,6 +26,7 @@
     "@mui/material": "^5.15.14",
     "@mui/x-date-pickers": "^7.14.0",
     "@mui/x-date-pickers-pro": "^7.14.0",
+    "@tabler/icons-react": "^3.14.0",
     "dayjs": "^1.11.13",
     "fs": "^0.0.1-security",
     "papaparse": "^5.4.1",
