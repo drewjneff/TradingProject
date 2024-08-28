@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import FilterDropdown from '../elements/FilterDropdown';
 import CandlestickChart from "../elements/CandlestickChart";
 import CandlestickSkeleton from "../elements/CandlestickSkeleton";
-import { FloatingIndicator, UnstyledButton } from "@mantine/core";
+import { FloatingIndicator, UnstyledButton, Button, Popover, ActionIcon } from "@mantine/core";
+import { IconAdjustments } from '@tabler/icons-react';
 import DatePicker from "../elements/DatePicker";
-import { Button } from '@mantine/core';
 
 
 function Gallery() {
@@ -17,9 +17,9 @@ function Gallery() {
     const [selectedStartDate, setSelectedStartDate] = useState('2024-01-02');
     const [selectedEndDate, setSelectedEndDate] = useState(dayjs().format('YYYY-MM-DD'));
 
-    useEffect(()=> {
-        console.log('start date is:',selectedStartDate);
-    },[selectedStartDate]);
+    useEffect(() => {
+        console.log('start date is:', selectedStartDate);
+    }, [selectedStartDate]);
 
     useEffect(() => {
         const queryString = 'SELECT symbol FROM in_position';
@@ -74,9 +74,9 @@ function Gallery() {
                     optionsArr={symbolOptions}
                     setSelectedSymbol={setSelectedSymbol}
                 />
-                <Button variant="filled" onClick={() => { fetchChartData() }}>Fetch Chart</Button>
+                
                 <div className='pickers'>
-                    <DatePicker 
+                    <DatePicker
                         selectedDate={selectedStartDate}
                         setSelectedDate={setSelectedStartDate}
                     />
@@ -86,6 +86,19 @@ function Gallery() {
                         setSelectedDate={setSelectedEndDate}
                     />
                 </div>
+                <Popover width={200} position="bottom" shadow="md">
+                    <Popover.Target>
+                        <div className='range-target-button'>
+                            <ActionIcon variant="filled" aria-label="Settings" style={{ width: '40px', height: '40px' }} color="#414141">
+                                <IconAdjustments style={{ width: '75%', height: '75%' }} stroke={1.5} color='white'/>
+                            </ActionIcon>
+                        </div>
+                    </Popover.Target>
+                    <Popover.Dropdown>
+                        This is uncontrolled popover, it is opened when button is clicked
+                    </Popover.Dropdown>
+                </Popover>
+                <Button variant="filled" onClick={() => { fetchChartData() }}>Fetch Chart</Button>
 
             </div>
             <div className='chart-container'>
