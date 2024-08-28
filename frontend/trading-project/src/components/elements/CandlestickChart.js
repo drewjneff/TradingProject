@@ -29,7 +29,7 @@ function CandlestickChart({ chartData }) {
                     showgrid: false,
                     color: 'white',
                     tickangle: 0,
-                    nticks: Math.min(15, chartData.timestamps.length),
+                    nticks: Math.min(14, chartData.timestamps.length),
                     tickfont: {
                         size: 14,
                     },
