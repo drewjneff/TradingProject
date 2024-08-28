@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import './Gallery.less';
+import dayjs from 'dayjs';
 import FilterDropdown from '../elements/FilterDropdown';
 import CandlestickChart from "../elements/CandlestickChart";
 import CandlestickSkeleton from "../elements/CandlestickSkeleton";
+import { FloatingIndicator, UnstyledButton } from "@mantine/core";
+import DatePicker from "../elements/DatePicker";
 import { Button } from '@mantine/core';
 
 
 function Gallery() {
     const [selectedSymbol, setSelectedSymbol] = useState("");
     const [symbolOptions, setSymbolOptions] = useState('');
-
     const [chartData, setChartData] = useState(null);
+    const [selectedStartDate, setSelectedStartDate] = useState('2024-01-02');
+    const [selectedEndDate, setSelectedEndDate] = useState(dayjs().format('YYYY-MM-DD'));
+
+    useEffect(()=> {
+        console.log('start date is:',selectedStartDate);
+    },[selectedStartDate]);
 
     useEffect(() => {
         const queryString = 'SELECT symbol FROM in_position';
@@ -29,7 +37,7 @@ function Gallery() {
                 }
             })
             .catch(error => {
-                console.error('There was an error fetching the tickers:',error);
+                console.error('There was an error fetching the tickers:', error);
             });
     }, []);
 
@@ -38,8 +46,8 @@ function Gallery() {
         axios.get(`http://127.0.0.1:5001/api/chart`, {
             params: {
                 symbol: selectedSymbol,
-                start_date: '2024-01-02',
-                end_date: '2024-08-26'
+                start_date: selectedStartDate,
+                end_date: selectedEndDate
             }
         })
             .then(response => {
@@ -58,6 +66,7 @@ function Gallery() {
             });
     }
 
+
     return (
         <>
             <div className='controls'>
@@ -65,17 +74,29 @@ function Gallery() {
                     optionsArr={symbolOptions}
                     setSelectedSymbol={setSelectedSymbol}
                 />
-                <Button variant="filled" classNames={{ root: 'buttonss' }} onClick={() => { fetchChartData() }}>Fetch Chart</Button>
+                <Button variant="filled" onClick={() => { fetchChartData() }}>Fetch Chart</Button>
+                <div className='pickers'>
+                    <DatePicker 
+                        selectedDate={selectedStartDate}
+                        setSelectedDate={setSelectedStartDate}
+                    />
+                    <span className='text-between-pickers'>to</span>
+                    <DatePicker
+                        selectedDate={selectedEndDate}
+                        setSelectedDate={setSelectedEndDate}
+                    />
+                </div>
+
             </div>
             <div className='chart-container'>
                 {chartData != null ?
-                <>
-                    <CandlestickChart
-                        chartData = {chartData}
-                    />
-                   
-                </>
-                    :  <CandlestickSkeleton/>}
+                    <>
+                        <CandlestickChart
+                            chartData={chartData}
+                        />
+
+                    </>
+                    : <CandlestickSkeleton />}
             </div>
         </>
 
